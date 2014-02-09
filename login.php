@@ -1,3 +1,27 @@
+<?php
+session_start();
+$login_error=0;
+include_once('modules/util.php');
+if(isset($_SESSION['username'])){
+	header('Location: index.php');
+	return;
+}
+
+if (isset($_REQUEST["username"]) && isset($_REQUEST["password"])){
+	$username =  $_REQUEST["username"];
+	$password =  $_REQUEST["password"];
+	
+	if(checkLogin($username, $password)){
+		header('Location: index.php');
+		$_SESSION['username']=$username;
+		return;
+	}else{
+		$login_error=1;
+	}	
+}
+?>
+
+
 <!DOCTYPE html>
 <!-- saved from url=(0040)http://getbootstrap.com/examples/signin/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -37,10 +61,17 @@
 
     <div class="container">
 	<h1 class="form-signin-heading">Madawa Management System</h1>
-      <form class="form-signin" role="form">
+      <form class="form-signin" role="form" method="post" action="">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" placeholder="Username" required="" autofocus="">
-        <input type="password" class="form-control" placeholder="Password" required="">
+        <?php 
+        if($login_error==1){	
+        ?>
+        	<p>Login Error! Username or Password incorrect!</p>
+        <?php 
+        	$login_error=0;
+		}?>
+        <input name ="username" type="username" class="form-control" placeholder="Username" required="" autofocus="">
+        <input name ="password" type="password" class="form-control" placeholder="Password" required="">
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>

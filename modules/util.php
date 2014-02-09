@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "admin123";
-$dbname = "pharma";
+$dbname = "madawa";
 
 $mysqli = new mysqli($host, $user, $pass, $dbname) or die(mysqli_error());
 
@@ -38,6 +38,41 @@ class Drugs
 		
 		return $drug;
 	}	
+}
+
+class Sale
+{
+	public $sale_id;
+	public $drug_id;
+	public $quantity;
+	public $date_of_sale;
+
+	public static function getObject($record)
+	{
+		$sale = new Sale;
+
+		$drug->sale_id = $record['sale_id'];
+		$drug->drug_id = $record['drug_id'];
+		$drug->quantity = $record['quantity'];
+		$drug->date_of_sale = $record['date_of_sale'];
+
+
+		return $drug;
+	}
+}
+
+function checkLogin($username, $password){
+	global $mysqli;
+	$password = md5($password);
+	
+	$sql = "select * from users where username = '".$username."' and password = '".$password."'";
+	$res = $mysqli->query($sql);
+	$row = $res->fetch_assoc();
+	
+	if (!empty($row)){
+		return true;	
+	}else 
+		return false;
 }
 
 function getDrug($drugid){
@@ -80,7 +115,6 @@ function getDrugsList(){
 	return json_encode($results);
 }
 
-
 function reduceDrugQuantity($drug_id, $quantity){
 		
 	global $mysqli;
@@ -89,30 +123,6 @@ function reduceDrugQuantity($drug_id, $quantity){
 
 	$res = $mysqli->query($sql);
 }
-
-
-
-class Sale
-{
-	public $sale_id;
-	public $drug_id;
-	public $quantity; 
-	public $date_of_sale;
-	
-	public static function getObject($record)
-	{
-		$sale = new Sale;
-		
-		$drug->sale_id = $record['sale_id'];
-		$drug->drug_id = $record['drug_id'];
-		$drug->quantity = $record['quantity'];
-		$drug->date_of_sale = $record['date_of_sale'];
-	
-		
-		return $drug;
-	}
-}
-
 
 function getSale($sale_id){
 	global $mysqli;
@@ -140,7 +150,6 @@ function getSales(){
 	
 	return json_encode($results);
 }
-
 
 function addSale($drug_id, $quantity){
 	global $mysqli;

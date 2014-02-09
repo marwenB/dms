@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico">
+    <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Madawa Management System</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -44,13 +44,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://getbootstrap.com/examples/dashboard/#">Project name</a>
+          <a class="navbar-brand" href="http://getbootstrap.com/examples/dashboard/#">Madawa Management System</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="http://getbootstrap.com/examples/dashboard/#">Dashboard</a></li>
             <li><a href="http://getbootstrap.com/examples/dashboard/#">Settings</a></li>
-            <li><a href="http://getbootstrap.com/examples/dashboard/#">Profile</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Proile</a></li>
             <li><a href="http://getbootstrap.com/examples/dashboard/#">Help</a></li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -64,22 +64,14 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="http://getbootstrap.com/examples/dashboard/#">Overview</a></li>
+            <li class="active"><a href="http://getbootstrap.com/examples/dashboard/#"> <span class="glyphicon glyphicon-search"></span> Sell drugs</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Check store</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Make Requisition pay</a></li>
             <li><a href="http://getbootstrap.com/examples/dashboard/#">Reports</a></li>
-            <li><a href="http://getbootstrap.com/examples/dashboard/#">Analytics</a></li>
-            <li><a href="http://getbootstrap.com/examples/dashboard/#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
+            <li class=""><a href="http://getbootstrap.com/examples/dashboard/#">Supply drugs</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Check store</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Handle Invoice</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Reports</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -243,9 +235,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./page_files/jquery-1.10.2.min.js"></script>
-    <script src="./page_files/bootstrap.min.js"></script>
-    <script src="./page_files/docs.min.js"></script>
+    <script src="./js/jquery-1.10.2.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
   
 
 </body></html>
