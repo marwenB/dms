@@ -2,7 +2,7 @@
 session_start();
 include_once('modules/util.php');
 
-if(!isset($_SESSION['username'])){
+if(!isset($_SESSION['dms-username'])){
 	header('Location: login.php');
 	return;
 }
@@ -60,6 +60,10 @@ if(!isset($_SESSION['username'])){
 	  		margin-top: 8px;
   		}
   	</style>
+  	<style type="text/css" title="currentStyle">
+			@import "css/demo_page.css";
+			@import "css/demo_table.css";
+	</style>
 </head> 
  <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -75,7 +79,7 @@ if(!isset($_SESSION['username'])){
         </div>
         <div class="navbar-collapse collapse">
             <div id="user-controls" class="btn-group navbar-right">
-			  <button type="button" class="btn btn-primary"><?php echo $_SESSION['username'];?></button>
+			  <button type="button" class="btn btn-primary"><?php echo $_SESSION['dms-username'];?></button>
 			  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			    <span class="caret"></span>
 			    <span class="sr-only">Toggle Dropdown</span>
@@ -116,7 +120,7 @@ if(!isset($_SESSION['username'])){
             </li>
           </ul>
         </div>
-        <img class="loading" alt="loading..." src="img/loading.gif" style="display:none;"/>
+        <img class="loading" alt="loading..." src="images/loading.gif" style="display:none;"/>
         <div id="right_pane" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
        
           
@@ -127,11 +131,12 @@ if(!isset($_SESSION['username'])){
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./js/jquery-1.10.2.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/docs.min.js"></script>
-    <script src="./js/jquery-1.9.1.js"></script>
-  	<script src="./js/jquery-ui.js"></script>
+    <script src="./js/jquery-1.10.2.min.js" type="text/javascript" ></script>
+    <script src="./js/bootstrap.min.js" type="text/javascript" ></script>
+    <script src="./js/docs.min.js" type="text/javascript" ></script>
+    <script src="./js/jquery-1.9.1.js" type="text/javascript" ></script>
+  	<script src="./js/jquery-ui.js" type="text/javascript" ></script>
+	<script src="./js/jquery.dataTables.js" type="text/javascript" ></script>
     <script type="text/javascript">
     
 
@@ -145,13 +150,12 @@ if(!isset($_SESSION['username'])){
 		    e.preventDefault();
 
 		    var href = $('a', this).attr('href');
-		    console.log(href)
+		    
 		    right_load(href)
 		});
     });
 
     function right_load(url){
-    	
     	$('.loading').show();
 	    $("#right_pane").load(
 	    	    url, 
@@ -159,14 +163,11 @@ if(!isset($_SESSION['username'])){
 	    		function() 
 	    		{
 	    			$('.loading').hide();
+	    			$('#stocks').dataTable();
 	    			
 	    		}
 	    );
     }
-
-
-
-
 
 
     </script>

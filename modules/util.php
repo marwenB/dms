@@ -115,6 +115,21 @@ function getDrugsList(){
 	return json_encode($results);
 }
 
+function getAllDrugs(){
+
+	global $mysqli;
+
+	$sql = "select * from drugs";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
 function reduceDrugQuantity($drug_id, $quantity){
 		
 	global $mysqli;

@@ -8,18 +8,18 @@ if (isset($_GET["logout"])){
 		session_destroy();
 	}
 }
-if(isset($_SESSION['username'])){
+if(isset($_SESSION['dms-username'])){
 	header('Location: index.php');
 	return;
 }
 
-if (isset($_REQUEST["username"]) && isset($_REQUEST["password"])){
-	$username =  $_REQUEST["username"];
-	$password =  $_REQUEST["password"];
+if (isset($_POST["username"]) && isset($_POST["password"])){
+	$username =  $_POST["username"];
+	$password =  $_POST["password"];
 	
 	if(checkLogin($username, $password)){
 		header('Location: index.php');
-		$_SESSION['username']=$username;
+		$_SESSION['dms-username']=$username;
 		return;
 	}else{
 		$login_error=1;

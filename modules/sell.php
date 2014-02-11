@@ -1,66 +1,51 @@
 <?php include('util.php')?>
 <h2 class="sub-header">Sell Drugs</h2>
+
 <div id="sell">
-<form id="form1" name="form1" method="post" action="">
+<form id="form1" name="form1" method="post" action="" class="form-horizontal" role="form">
   <input id="drug_id" type="hidden" name="drug_id"/>
   <input id="current_quantity" type="hidden" name="current_quantity"/>
-  <table width="200" border="0">
-    <tr>
-      <th scope="row">Drug Name </th>
-    <td>    	 
-		<div class="ui-widget">
-		  <label for="tags"></label>
-		  <input id="tags" type="text" name="drug" style="width: 150px"/>
-		</div>
-	</td>
-      <td><strong>Quantity</strong></td>
-      <td><label>
-        <input id="quantity" type="text" name="quantity" />
-      </label></td>
-    </tr>
-    <tr>
-      <th scope="row">Form</th>
-      <td><label>
-        <input id="drug_form" type="text" name="drug_form" />
-      </label></td>
-      <td><strong>Selling Price </strong></td>
-      <td><label>
-
-        <input id="selling_price" type="text" name="selling_price" />
-      </label></td>
-    </tr>
-    <tr>
-      <th scope="row">Strength</th>
-      <td><label>
-        <input id="strength" type="text" name="strength" />
-      </label></td>
-
-      <td><strong>Expiry Date </strong></td>
-      <td><label>
-        <input id="expiry_date" type="text" name="expiry_date" />
-      </label></td>
-    </tr>
-    <tr>
-      <th scope="row">&nbsp;</th>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><label>
-        <input type="submit" name="Submit" value="Save" />
-      </label></td>
-    </tr>
-    <tr>
-      <th scope="row">&nbsp;</th>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <th scope="row">&nbsp;</th>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-  </table>
+  
+  
+  <div class="form-group">
+    <label for="drugname" class="col-sm-2 control-label">Drug Name</label>
+    <div class="col-sm-8">
+      <input id="tags" type="text" name="drug" class="form-control" placeholder="Enter Drug Name here ...">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="quantity" class="col-sm-2 control-label">Available Quantity </label>
+    <div class="col-sm-8">
+      <input id="quantity" type="text" name="quantity" class="form-control" placeholder="" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="selling_price" class="col-sm-2 control-label">Selling Price</label>
+    <div class="col-sm-8">
+      <input id="selling_price" type="text" name="selling_price" class="form-control" placeholder="" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="strength" class="col-sm-2 control-label">Dosage</label>
+    <div class="col-sm-8">
+      <input id="strength" type="text" name="strength" class="form-control" placeholder="" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="expiry_date" class="col-sm-2 control-label">Expiry Date</label>
+    <div class="col-sm-8">
+      <input id="expiry_date" type="text" name="expiry_date" class="form-control" placeholder="" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="quantity_sold" class="col-sm-2 control-label">Quantity Ordered</label>
+    <div class="col-sm-8">
+      <input id="quantity_sold" type="text" name="quantity_sold" class="form-control" placeholder="Enter Quantity being sold here..." >
+    </div>
+  </div>
+ 
+ 	<input  class="btn btn-primary btn-lg" type="submit" name="Submit" value="Save Sale" />
+   
 </form>
 </div>
 
@@ -94,7 +79,7 @@
     function getVariables(drug_name){
        $.ajax({
         type: "POST",
-        url: "util.php",
+        url: "modules/util.php",
         data: {dn:drug_name},
         success: function(result) {
             var drug = JSON.parse(result);
@@ -114,7 +99,11 @@
     */
     $("input[type=submit]").click(function(){
       var current_quantity = parseInt($("#current_quantity").val());
-      var quantity = parseInt($("#quantity").val());
+      var quantity = parseInt($("#quantity_sold").val());
+  
+      if (isNaN(quantity)){
+    	  alert("Please enter valid quantity");
+      }else
       if (current_quantity<10){
 
         alert("Stock is low. Cannot be saved");
@@ -129,14 +118,16 @@
      else
       {
         drug_id = $("#drug_id").val();
-        quantity =  $("#quantity").val();
-
-        alert ("Sale Saved.")
+        quantity =  $("#quantity_sold").val();
+        alert ("Sale Saved.");
         $.ajax({
           type: "POST",
-          url: "util.php",
+          url: "modules/util.php",
           data: {di:drug_id, q: quantity},
           success: function(result) {
+        	 
+        	  
+              
           }
         });
 
