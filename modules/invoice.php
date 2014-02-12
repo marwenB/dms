@@ -1,9 +1,9 @@
 <?php 
 include('util.php');
-$drugs = getAllDrugs();
+$drugs = getAllRequisitions();
 ?>
 
-<h2 class="sub-header"><span class="glyphicon glyphicon-search"></span> Check Stock</h2>
+<h2 class="sub-header"><span class="glyphicon glyphicon-list-alt"></span> Handle Invoice</h2>
 <div id="check_stock">
 <div class="table-responsive">
             <table id="stocks" class="table table-striped table-bordered table-hover">
@@ -11,26 +11,23 @@ $drugs = getAllDrugs();
                 <tr>
                   <th>#</th>
                   <th>Drug Name</th>
-                  <th>Purchase Price</th>
-                  <th>Selling Price</th>
-                  <th>Quantity</th>
-               	  <th>Stock Level</th>
+                  <th>Date Ordered</th>
+                  <th>Quantity Ordered</th>
+               	  <th> </th>
                 </tr>
               </thead>
               <tbody>
               <?php foreach ($drugs as $drug){?>
                 <tr>
-                  <td><?php echo $drug['drug_id']?></td>
+                  <td><?php echo $drug['req_id']?></td>
                   <td><?php echo $drug['name']?></td>
-                  <td><?php echo $drug['purchaseprice']?></td>
-                  <td><?php echo $drug['sellingprice']?></td>
-                  <td><?php echo $drug['quantity']?></td>
-                  <td><?php if ($drug['quantity']<=10){?>
-                  		<span class='label label-danger'>Stock Level Low</span>
-                  		<a class="btn btn-xs btn-primary" href="javascript:load_modal('make_req_modal',<?php echo $drug['drug_id']?>, '<?php echo $drug['name']?>');"><span class="glyphicon glyphicon-shopping-cart"></span> Make Requisition</a>
-                  		<?php }else{ ?>
-						<span class='label label-success'>Stock Level Normal</span>
-				  		<?php }?>
+                  <td><?php echo $drug['date_ordered']?></td>
+                  <td><?php echo $drug['quantity_ordered']?></td>
+         
+                  <td><?php if ($drug['quantity']<10){?>
+                  		<span class='label label-danger'>Payment Pending</span>
+                  		<a class="btn btn-xs btn-success" href="javascript:load_modal('make_req_modal',<?php echo $drug['drug_id']?>, '<?php echo $drug['name']?>');"><span class="glyphicon glyphicon-usd"></span> Receive Payment</a>
+                  		<?php }?>
 				 </td>
 				
                 </tr>

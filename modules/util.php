@@ -1,4 +1,5 @@
 <?php
+session_start();
 $host = "localhost";
 $user = "root";
 $pass = "admin123";
@@ -68,7 +69,7 @@ function checkLogin($username, $password){
 	$sql = "select * from users where username = '".$username."' and password = '".$password."'";
 	$res = $mysqli->query($sql);
 	$row = $res->fetch_assoc();
-	
+	$_SESSION['dms-role'] = $row['role'];
 	if (!empty($row)){
 		return true;	
 	}else 
@@ -130,6 +131,36 @@ function getAllDrugs(){
 	return $results;
 }
 
+function getAllRequisitions(){
+
+	global $mysqli;
+
+	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id AND req.processed = 0";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
+function getAllSales(){
+
+	global $mysqli;
+
+	$sql = "select *, s.quantity as qs from sales s, drugs d where s.drug_id = d.drug_id";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
 function reduceDrugQuantity($drug_id, $quantity){
 		
 	global $mysqli;
@@ -176,6 +207,29 @@ function addSale($drug_id, $quantity){
 	}
 	return 0;
 }
+function addRequisition($drug_id, $quantity_requisitioned){
+	global $mysqli;
+	//new
+	$sql = "INSERT INTO requisition (drug_id, quantity_ordered, date_ordered) VALUES(".$drug_id.",".$quantity_requisitioned.",'".date("Y-m-d H:i:s")."')";
+	$res = $mysqli->query($sql);
+	if($res){
+		reduceDrugQuantity($drug_id, $quantity);
+		return 1;
+	}
+	return 0;
+}
+
+function addDrug($drug_name, $quantity_requisitioned){
+	global $mysqli;
+	//new
+	$sql = "INSERT INTO requisition (drug_id, quantity_ordered, date_ordered) VALUES(".$drug_id.",".$quantity_requisitioned.",'".date("Y-m-d H:i:s")."')";
+	$res = $mysqli->query($sql);
+	if($res){
+		reduceDrugQuantity($drug_id, $quantity);
+		return 1;
+	}
+	return 0;
+}
 
 if(isset($_REQUEST['dn'])){
 	echo getDrugByName($_REQUEST['dn']);
@@ -183,6 +237,10 @@ if(isset($_REQUEST['dn'])){
 
 if(isset($_REQUEST['di']) && isset($_REQUEST['q'])){
 	echo addSale($_REQUEST['di'],$_REQUEST['q']);
+}
+
+if(isset($_REQUEST['di']) && isset($_REQUEST['qr'])){
+	echo addRequisition($_REQUEST['di'],$_REQUEST['qr']);
 }
 
 ?>

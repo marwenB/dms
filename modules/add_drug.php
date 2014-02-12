@@ -1,5 +1,5 @@
 <?php include('util.php')?>
-<h2 class="sub-header"> <span class="glyphicon glyphicon-barcode"></span> Sell Drugs</h2>
+<h2 class="sub-header"><span class="glyphicon glyphicon-pencil"></span> Add Drug</h2>
 
 <div id="sell">
 <form id="form1" name="form1" method="post" action="" class="form-horizontal" role="form">
@@ -14,38 +14,37 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="quantity" class="col-sm-2 control-label">Available Quantity </label>
+    <label for="description" class="col-sm-2 control-label">Description </label>
     <div class="col-sm-8">
-      <input id="quantity" type="text" name="quantity" class="form-control" placeholder="" disabled>
+      <input id="description" type="text" name="description" class="form-control" placeholder="Enter Drug description ...">
     </div>
   </div>
+  
+  <div class="form-group">
+    <label for="purchase_price" class="col-sm-2 control-label">Purchasing Price</label>
+    <div class="col-sm-8">
+      <input id="purchase_price" type="text" name="purchase_price" class="form-control" placeholder="Enter Purchasing Price ...">
+    </div>
+  </div>
+  
   <div class="form-group">
     <label for="selling_price" class="col-sm-2 control-label">Selling Price</label>
     <div class="col-sm-8">
-      <input id="selling_price" type="text" name="selling_price" class="form-control" placeholder="" disabled>
+      <input id="selling_price" type="text" name="selling_price" class="form-control" placeholder="Enter Selling Price ...">
     </div>
   </div>
+  
+  
   <div class="form-group">
     <label for="strength" class="col-sm-2 control-label">Dosage</label>
     <div class="col-sm-8">
-      <input id="strength" type="text" name="strength" class="form-control" placeholder="" disabled>
+      <input id="strength" type="text" name="strength" class="form-control" placeholder="Enter Dosage ...">
     </div>
   </div>
-  <div class="form-group">
-    <label for="expiry_date" class="col-sm-2 control-label">Expiry Date</label>
-    <div class="col-sm-8">
-      <input id="expiry_date" type="text" name="expiry_date" class="form-control" placeholder="" disabled>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="quantity_sold" class="col-sm-2 control-label">Quantity Ordered</label>
-    <div class="col-sm-8">
-      <input id="quantity_sold" type="text" name="quantity_sold" class="form-control" placeholder="Enter Quantity being sold here..." >
-    </div>
-  </div>
+
  
- 	<input  class="btn btn-primary btn-lg" type="submit" name="Submit" value="Save Sale" />
-   
+ 	<input  class="btn btn-primary btn-lg" type="submit" name="Submit" value=" Save Drug"/> 
+ 		
 </form>
 </div>
 
@@ -98,8 +97,10 @@
     *Save entered variables to database
     */
     $("input[type=submit]").click(function(){
-      var current_quantity = parseInt($("#current_quantity").val());
-      var quantity = parseInt($("#quantity_sold").val());
+    
+      var stregth = parseInt($("#stregth").val());
+      var stregth = parseInt($("#stregth").val());
+      var stregth = parseInt($("#stregth").val());
   
       if (isNaN(quantity)){
     	  alert("Please enter valid quantity");

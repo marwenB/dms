@@ -100,24 +100,36 @@ if(!isset($_SESSION['dms-username'])){
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active">
+          <?php if($_SESSION['dms-role']=="admin" || $_SESSION['dms-role']=="pharma"){?>
+            <li>
 	            <a href="modules/sell.php"><span class="glyphicon glyphicon-barcode"></span> Sell drugs</a>
             </li>
+           <?php }?>
+           <?php if($_SESSION['dms-role']=="admin"  ||  $_SESSION['dms-role']=="pharma"){?>
             <li>
             	<a href="modules/check_stock.php"><span class="glyphicon glyphicon-search"></span> Check Stock</a>
             </li>
+            <?php }?>
+             <?php if($_SESSION['dms-role']=="admin" || $_SESSION['dms-role']=="kemsa"){?>
             <li>
-           		<a href="modules/make_req.php"><span class="glyphicon glyphicon-download-alt"></span> Make Requisition pay</a>
+            	<a href="modules/add_drug.php"><span class="glyphicon glyphicon-pencil"></span> Add Drug</a>
             </li>
+            <?php }?>
+            <?php if($_SESSION['dms-role']=="admin" || $_SESSION['dms-role']=="kemsa"){?>
             <li>
             	<a href="modules/supply_drugs.php"><span class="glyphicon glyphicon-shopping-cart"></span> Supply drugs</a>
             </li>
+            <?php }?>
+            <?php if($_SESSION['dms-role']=="admin" ||$_SESSION['dms-role']=="kemsa"){?>
             <li>
             	<a href="modules/invoice.php"><span class="glyphicon glyphicon-list-alt"></span> Handle Invoice</a>
             </li>
+            <?php }?>
+            <?php if($_SESSION['dms-role']=="admin" || $_SESSION['dms-role']=="kemsa"){?>
             <li>
             	<a href="modules/reports.php"><span class="glyphicon glyphicon-tasks"></span> Reports</a>
             </li>
+            <?php }?>
           </ul>
         </div>
         <img class="loading" alt="loading..." src="images/loading.gif" style="display:none;"/>
@@ -134,7 +146,6 @@ if(!isset($_SESSION['dms-username'])){
     <script src="./js/jquery-1.10.2.min.js" type="text/javascript" ></script>
     <script src="./js/bootstrap.min.js" type="text/javascript" ></script>
     <script src="./js/docs.min.js" type="text/javascript" ></script>
-    <script src="./js/jquery-1.9.1.js" type="text/javascript" ></script>
   	<script src="./js/jquery-ui.js" type="text/javascript" ></script>
 	<script src="./js/jquery.dataTables.js" type="text/javascript" ></script>
     <script type="text/javascript">
@@ -142,7 +153,7 @@ if(!isset($_SESSION['dms-username'])){
 
 
     $(document).ready(function(){
-		right_load('modules/sell.php');
+		//right_load('modules/sell.php');
 
 		$lis = $('.nav-sidebar li').click(function(e) {
 		    $lis.filter(".active").removeClass("active");
@@ -151,11 +162,12 @@ if(!isset($_SESSION['dms-username'])){
 
 		    var href = $('a', this).attr('href');
 		    
-		    right_load(href)
+		    right_load(href);
 		});
     });
 
     function right_load(url){
+    	
     	$('.loading').show();
 	    $("#right_pane").load(
 	    	    url, 
@@ -163,13 +175,60 @@ if(!isset($_SESSION['dms-username'])){
 	    		function() 
 	    		{
 	    			$('.loading').hide();
-	    			$('#stocks').dataTable();
+	    			$('#stocks').dataTable({
+	    		        "sPaginationType": "full_numbers"
+	    		    });
+	    		}
+	    );
+    }
+
+	function load_modal(requested_modal, drug_id, drug_name){
+		$('.loading').show();
+    	
+    	if(requested_modal=="make_req_modal"){
+    		var url = "modules/make_req.php";
+    	}
+	    $("#modal_body").load(
+	    	    url, 
+	    		{drugID: drug_id, drugName:drug_name}, 
+	    		function() 
+	    		{
+	    			$('.loading').hide();
+	    			$('#'+requested_modal).modal('show');
 	    			
 	    		}
 	    );
     }
 
+	 function save_req(){
+	     
+	        var quantity = parseInt($("#quantity_ordered").val());
+	    
+	       if (isNaN(quantity)){
+	      	  alert("Please enter valid quantity");
+	       }
+	       else
+	        {
+	          drug_id = $("#drug_id").val();
+	          quantity =  $("#quantity_ordered").val();
+	          console.log(drug_id+"__>"+quantity)
+	          alert ("Requisition Saved.");
+	          $.ajax({
+	            type: "POST",
+	            url: "modules/util.php",
+	            data: {di:drug_id, qr: quantity},
+	            success: function(result) {
+	          	 if (result ==1){
+	          		$('#make_req_modal').modal('hide');
+	          	 }
+	 
+	            }
+	          });
 
+	        }
+	        
+
+	      }
     </script>
   
 
