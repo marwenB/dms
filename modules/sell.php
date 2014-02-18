@@ -43,8 +43,8 @@
       <input id="quantity_sold" type="text" name="quantity_sold" class="form-control" placeholder="Enter Quantity being sold here..." >
     </div>
   </div>
- 
- 	<input  class="btn btn-primary btn-lg" type="submit" name="Submit" value="Save Sale" />
+  	
+ 	<button type="button" onclick="add_sale()" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-floppy-disk"></span> Save Sale</button>
    
 </form>
 </div>
@@ -93,48 +93,55 @@
         }
       });
     }
-
-    /**
-    *Save entered variables to database
-    */
-    $("input[type=submit]").click(function(){
-      var current_quantity = parseInt($("#current_quantity").val());
-      var quantity = parseInt($("#quantity_sold").val());
-  
-      if (isNaN(quantity)){
-    	  alert("Please enter valid quantity");
-      }else
-      if (current_quantity<10){
-
-        alert("Stock is low. Cannot be saved");
-
-      } 
-      else
-
-      if(quantity>current_quantity){
-
-        alert("Quantity orderd more than stock level.");
-     }
-     else
-      {
-        drug_id = $("#drug_id").val();
-        quantity =  $("#quantity_sold").val();
-        alert ("Sale Saved.");
-        $.ajax({
-          type: "POST",
-          url: "modules/util.php",
-          data: {di:drug_id, q: quantity},
-          success: function(result) {
-        	 
-        	  
-              
-          }
-        });
-
-      }
-      
-
-    });
-
   });
+
+  /**
+   *Save entered variables to database
+   */
+   function add_sale(){
+     var current_quantity = parseInt($("#current_quantity").val());
+     var quantity = parseInt($("#quantity_sold").val());
+ 
+     if (isNaN(quantity)){
+   	  alert("Please enter valid quantity");
+     }else
+     if (current_quantity<10){
+
+       alert("Stock is low. Cannot be saved");
+
+     } 
+     else
+
+     if(quantity>current_quantity){
+
+       alert("Quantity orderd more than stock level.");
+    }
+    else
+     {
+       drug_id = $("#drug_id").val();
+       quantity =  $("#quantity_sold").val();
+       alert ("Sale Saved.");
+       $.ajax({
+         type: "POST",
+         url: "modules/util.php",
+         data: {di:drug_id, q: quantity},
+         success: function(result) {
+       	 
+       	  	 $("#drug_id").val('');
+       	  	 $("#tags").val('');
+             $("#drug_form").val('');
+             $("#strength").val('');
+             $("#quantity").val('');
+             $("#current_quantity").val('');
+             $("#selling_price").val('');
+             $("#expiry_date").val('');
+             $("#quantity_sold").val('');
+             
+         }
+       });
+
+     }
+     
+
+   }
 </script>

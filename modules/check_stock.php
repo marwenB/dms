@@ -60,50 +60,51 @@ $drugs = getAllDrugs();
   </div>
 </div>
 
- <script>
-  $(function() {
-    var results = '<?php echo getDrugsList(); ?>';
-  	objct = JSON.parse(results);
-  	  	
-  	asp = objct.name;
-    var drugz = new Array();
-    for(index = 0; index < objct.length; index++){	
-		  drugz[index] = objct[index]['name'];
-    }
+<script>
+
+function load_modal(requested_modal, drug_id, drug_name){
+	$('.loading').show();
 	
-    var availableTags = drugz;
+	if(requested_modal=="make_req_modal"){
+		var url = "modules/make_req.php";
+	}
+    $("#modal_body").load(
+    	    url, 
+    		{drugID: drug_id, drugName:drug_name}, 
+    		function() 
+    		{
+    			$('.loading').hide();
+    			$('#'+requested_modal).modal('show');
+    			
+    		}
+    );
+}
 
+function save_req(){
+     
+        var quantity = parseInt($("#quantity_ordered").val());
+    
+       if (isNaN(quantity)){
+      	  alert("Please enter valid quantity");
+       }
+       else
+        {
+          drug_id = $("#drug_id").val();
+          quantity =  $("#quantity_ordered").val();
+          alert ("Requisition Saved.");
+          $.ajax({
+            type: "POST",
+            url: "modules/util.php",
+            data: {di:drug_id, qr: quantity},
+            success: function(result) {
+          	 if (result ==1){
+          		$('#make_req_modal').modal('hide');
+          	 }
+ 
+            }
+          });
 
-    /**
-    *Autocomplete drug input
-    */
-
-    $("#tags").autocomplete({
-      source: availableTags,
-      select: function(event, ui) {getVariables(ui.item.value);}
-    });
-
-    /**
-    *Get Variables of selected drug from database
-    */
-    function getVariables(drug_name){
-       $.ajax({
-        type: "POST",
-        url: "util.php",
-        data: {dn:drug_name},
-        success: function(result) {
-            var drug = JSON.parse(result);
-            $("#drug_id").val(drug.drugid);
-            $("#drug_form").val(drug.form);
-            $("#strength").val(drug.strength);
-            $("#quantity").val(drug.quantity);
-            $("#current_quantity").val(drug.quantity);
-            $("#selling_price").val(drug.sellingprice);
-            $("#expiry_date").val(drug.expirydate);
         }
-      });
-    }
-
-   
-  });
+}
+ 
 </script>

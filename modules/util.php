@@ -57,7 +57,6 @@ class Sale
 		$drug->quantity = $record['quantity'];
 		$drug->date_of_sale = $record['date_of_sale'];
 
-
 		return $drug;
 	}
 }
@@ -135,7 +134,22 @@ function getAllRequisitions(){
 
 	global $mysqli;
 
-	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id AND req.processed = 0";
+	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
+function getProcessedRequisitions(){
+
+	global $mysqli;
+
+	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id and processed = 1";
 
 	$res = $mysqli->query($sql);
 	$results = array();
@@ -159,6 +173,33 @@ function getAllSales(){
 	}
 
 	return $results;
+}
+
+
+function processRequisition($req_id){
+
+	global $mysqli;
+
+	$sql = "UPDATE requisition SET processed = 1 where req_id = $req_id";
+
+	$res = $mysqli->query($sql);
+	if ($res)
+		echo 1;
+	else 
+		echo 0;
+}
+
+function processPayment($req_id, $amount){
+
+	global $mysqli;
+
+	$sql = "UPDATE requisition SET paid = 1,  total_amount= $amount where req_id = $req_id";
+
+	$res = $mysqli->query($sql);
+	if ($res)
+		echo 1;
+	else
+		echo 0;
 }
 
 function reduceDrugQuantity($drug_id, $quantity){
@@ -219,10 +260,11 @@ function addRequisition($drug_id, $quantity_requisitioned){
 	return 0;
 }
 
-function addDrug($drug_name, $quantity_requisitioned){
+function addDrug($drug_name, $description, $purchaseprice, $sellingprice, $strength){
 	global $mysqli;
 	//new
-	$sql = "INSERT INTO requisition (drug_id, quantity_ordered, date_ordered) VALUES(".$drug_id.",".$quantity_requisitioned.",'".date("Y-m-d H:i:s")."')";
+	$sql = "INSERT INTO drugs (name, description, purchaseprice, sellingprice, strength) 
+			VALUES('".$drug_name."','".$description."','".$purchaseprice."','".$sellingprice."','".$strength."')";
 	$res = $mysqli->query($sql);
 	if($res){
 		reduceDrugQuantity($drug_id, $quantity);
@@ -241,6 +283,18 @@ if(isset($_REQUEST['di']) && isset($_REQUEST['q'])){
 
 if(isset($_REQUEST['di']) && isset($_REQUEST['qr'])){
 	echo addRequisition($_REQUEST['di'],$_REQUEST['qr']);
+}
+
+if(isset($_REQUEST['add_drug']) && $_REQUEST['add_drug']=='1'){
+	echo addDrug($_REQUEST['dn'], $_REQUEST['dd'], $_REQUEST['pp'], $_REQUEST['sp'], $_REQUEST['s']);
+}
+
+if(isset($_REQUEST['pr']) && $_REQUEST['pr']=='1'){
+	echo processRequisition($_REQUEST['req']);
+}
+
+if(isset($_REQUEST['pay']) && $_REQUEST['pay']=='1'){
+	echo processPayment($_REQUEST['req'], $_REQUEST['amount']);
 }
 
 ?>

@@ -13,20 +13,18 @@ $drugs = getAllSales();
                   <th>Drug Name</th>
                   <th>Sale Date</th>
                   <th>Quantity Sold</th>
-               	  <th> Total Amount</th>
-               	  <th> </th>
+               	  
+               	 
                 </tr>
               </thead>
               <tbody>
               <?php foreach ($drugs as $drug){?>
                 <tr>
-                  <td><?php echo $drug['sale_id']?></td>
-                  <td><?php echo $drug['date_of_sale']?></td>
-                  <td><?php echo $drug['qs']?></td>
-                  <td><?php echo $drug['quantity_ordered']?></td>
-         
-                  <td>
-				 </td>
+                  <td><?php echo $drug['sale_id'];?></td>
+                  <td><?php echo $drug['name'];?></td>
+                  <td><?php echo $drug['date_of_sale'];?></td>
+                  <td><?php echo $drug['qs'];?></td>
+              
 				
                 </tr>
                <?php }?>

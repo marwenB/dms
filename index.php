@@ -181,54 +181,6 @@ if(!isset($_SESSION['dms-username'])){
 	    		}
 	    );
     }
-
-	function load_modal(requested_modal, drug_id, drug_name){
-		$('.loading').show();
-    	
-    	if(requested_modal=="make_req_modal"){
-    		var url = "modules/make_req.php";
-    	}
-	    $("#modal_body").load(
-	    	    url, 
-	    		{drugID: drug_id, drugName:drug_name}, 
-	    		function() 
-	    		{
-	    			$('.loading').hide();
-	    			$('#'+requested_modal).modal('show');
-	    			
-	    		}
-	    );
-    }
-
-	 function save_req(){
-	     
-	        var quantity = parseInt($("#quantity_ordered").val());
-	    
-	       if (isNaN(quantity)){
-	      	  alert("Please enter valid quantity");
-	       }
-	       else
-	        {
-	          drug_id = $("#drug_id").val();
-	          quantity =  $("#quantity_ordered").val();
-	          console.log(drug_id+"__>"+quantity)
-	          alert ("Requisition Saved.");
-	          $.ajax({
-	            type: "POST",
-	            url: "modules/util.php",
-	            data: {di:drug_id, qr: quantity},
-	            success: function(result) {
-	          	 if (result ==1){
-	          		$('#make_req_modal').modal('hide');
-	          	 }
-	 
-	            }
-	          });
-
-	        }
-	        
-
-	      }
     </script>
   
 
