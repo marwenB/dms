@@ -130,6 +130,21 @@ function getAllDrugs(){
 	return $results;
 }
 
+function getLowStockDrugs(){
+
+	global $mysqli;
+
+	$sql = "select * from drugs where quantity <=10";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
 function getAllRequisitions(){
 
 	global $mysqli;
@@ -150,6 +165,36 @@ function getProcessedRequisitions(){
 	global $mysqli;
 
 	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id and processed = 1";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
+function getPaidRequisitions(){
+
+	global $mysqli;
+
+	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id and processed = 1 and paid = 1";
+
+	$res = $mysqli->query($sql);
+	$results = array();
+	while($row = $res->fetch_assoc()){
+		$results[] = $row;
+	}
+
+	return $results;
+}
+
+function getUnPaidRequisitions(){
+
+	global $mysqli;
+
+	$sql = "select * from requisition req, drugs d where req.drug_id = d.drug_id and processed = 1 and paid = 0";
 
 	$res = $mysqli->query($sql);
 	$results = array();
@@ -196,8 +241,20 @@ function processPayment($req_id, $amount){
 	$sql = "UPDATE requisition SET paid = 1,  total_amount= $amount where req_id = $req_id";
 
 	$res = $mysqli->query($sql);
-	if ($res)
+	if ($res){
+		
+		$sql = "SELECT drug_id, quantity_ordered FROM requisition WHERE req_id = $req_id";
+		$sql;
+		$res = $mysqli->query($sql);
+		$row = $res->fetch_assoc();
+		$drug_id = $row['drug_id'];
+		$amount_ordered = $row['quantity_ordered'];
+		
+		$sql = "UPDATE drugs SET quantity = quantity + $amount_ordered WHERE drug_id = $drug_id";
+		
+		$res = $mysqli->query($sql);
 		echo 1;
+	}
 	else
 		echo 0;
 }

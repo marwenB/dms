@@ -63,6 +63,7 @@ if(!isset($_SESSION['dms-username'])){
   	<style type="text/css" title="currentStyle">
 			@import "css/demo_page.css";
 			@import "css/demo_table.css";
+			@import "css/datepicker.css";
 	</style>
 </head> 
  <body>
@@ -148,6 +149,7 @@ if(!isset($_SESSION['dms-username'])){
     <script src="./js/docs.min.js" type="text/javascript" ></script>
   	<script src="./js/jquery-ui.js" type="text/javascript" ></script>
 	<script src="./js/jquery.dataTables.js" type="text/javascript" ></script>
+	<script src="./js/bootstrap-datepicker.js" type="text/javascript" ></script>
     <script type="text/javascript">
     
 
